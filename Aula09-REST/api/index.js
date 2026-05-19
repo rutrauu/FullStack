@@ -24,6 +24,40 @@ api.get( "/" , (req, res, next) => {
 } )
 
 
+api.get( "/product" , (req, res, next) => {
+    conn("produto")
+        .leftJoin("categoria" , "produto.codCategoria" , "=" , "categoria.id")
+        .select("produto.*" , "categoria.nome AS cat")
+        .then( dados => res.json( dados ) )
+        .catch( next )
+})
+
+api.get( "/product/:idProd" , (req, res, next) => {
+    const id = req.params.idProd
+    conn("produto")
+        .leftJoin("categoria" , "produto.codCategoria" , "=" , "categoria.id")
+        .select("produto.*" , "categoria.nome AS cat")
+        .where( "produto.id" , id )
+        .first()
+        .then( dados => res.json( dados ) )
+        .catch( next )
+})
+
+api.get( "/categoty" , (req, res, next) => {
+    conn("categoria")
+        .then( dados => res.json( dados ) )
+        .catch( next )
+})
+
+api.get( "/categoty/:idCat" , (req, res, next) => {
+    const id = req.params.idcat
+    conn("categoria")
+        .where( "categoria.id" , id )
+        .first()
+        .then( dados => res.json( dados ) )
+        .catch( next )
+})
+
 
 
 api.listen( PORT , ()=>{

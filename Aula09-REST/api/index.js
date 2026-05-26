@@ -50,7 +50,7 @@ api.get( "/category" , (req, res, next) => {
 })
 
 api.get( "/category/:idCat" , (req, res, next) => {
-    const id = req.params.idcat
+    const id = req.params.idCat
     conn("categoria")
         .where( "categoria.id" , id )
         .first()
@@ -58,7 +58,101 @@ api.get( "/category/:idCat" , (req, res, next) => {
         .catch( next )
 })
 
+api.delete( "/category/:idCat" , (req, res, next) => {
+    const id = req.params.idCat
+    conn("categoria")
+        .where( "id" , id )
+        .delete()
+        .then( dados => {
+            if( !dados ){
+                return next( http_errors( 404 , "Erro ao excluir"))
+            }
+            res.status(200).json( {
+                resposta : "Categoria excluída"
+            } )
+        }  )
+        .catch( next )
+})
 
+api.delete( "/product/:idProd" , (req, res, next) => {
+    const id = req.params.idProd
+    conn("produto")
+        .where( "id" , id )
+        .delete()
+        .then( dados => {
+            if( !dados ){
+                return next( http_errors( 404 , "Erro ao excluir"))
+            }
+            res.status(200).json( {
+                resposta : "Produto excluído"
+            } )
+        }  )
+        .catch( next )
+})
+
+
+api.post( "/category" , (req, res, next) => {
+    conn("categoria")
+        .insert( req.body )
+        .then( dados => {
+            if( !dados ){
+                return next( http_errors( 404 , "Erro ao inserir"))
+            }
+            res.status(201).json( {
+                resposta : "Categoria Inserida" ,
+                id : dados[0]
+            } )
+        } )
+        .catch( next )
+})
+
+api.put( "/category/:idCat" , (req, res, next) => {
+    const idCategoria = req.params.idCat
+    conn("categoria")
+        .where( "id" , idCategoria )
+        .update( req.body )
+        .then( dados => {
+            if( !dados ){
+                return next( http_errors( 404 , "Erro ao editar"))
+            }
+            res.status(200).json( {
+                resposta : "Categoria editada" 
+            })
+        } )
+        .catch( next )
+})
+
+
+api.post( "/product" , (req, res, next) => {
+    conn("produto")
+        .insert( req.body )
+        .then( dados => {
+            if( !dados ){
+                return next( http_errors( 404 , "Erro ao inserir"))
+            }
+            res.status(201).json( {
+                resposta : "Produto Inserido" ,
+                id : dados[0]
+            } )
+        } )
+        .catch( next )
+})
+
+api.put( "/product/:idProd" , (req, res, next) => {
+    const idProduto = req.params.idProd
+    conn("produto")
+        .where( "id" , idProduto )
+        .update( req.body )
+        .then( dados => {
+            if( !dados ){
+                return next( http_errors( 404 , "Erro ao editar"))
+            }
+            res.status(200).json( {
+                resposta : "Produto editado" 
+            })
+        } )
+        .catch( next )
+})
 
 api.listen( PORT , ()=>{
     console.log( `Servidor rodando em: http://${HOSTNAME}:${PORT}`)

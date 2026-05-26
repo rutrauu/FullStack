@@ -43,13 +43,13 @@ api.get( "/product/:idProd" , (req, res, next) => {
         .catch( next )
 })
 
-api.get( "/categoty" , (req, res, next) => {
+api.get( "/category" , (req, res, next) => {
     conn("categoria")
         .then( dados => res.json( dados ) )
         .catch( next )
 })
 
-api.get( "/categoty/:idCat" , (req, res, next) => {
+api.get( "/category/:idCat" , (req, res, next) => {
     const id = req.params.idcat
     conn("categoria")
         .where( "categoria.id" , id )

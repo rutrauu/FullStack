@@ -1,13 +1,16 @@
 const express = require("express")
 const knex = require("knex")
 const http_errors = require("http-errors")
+const cors = require("cors")
 
 const PORT = 8001
 const HOSTNAME = "localhost"
 
 const api = express()
+api.use(cors())
 api.use( express.json() )
 api.use( express.urlencoded( { extended : true } ) )
+
 
 const conn = knex( {
     client : "mysql" ,

@@ -29,3 +29,5 @@ FOREIGN KEY (codCategoria) REFERENCES categoria (id);
 
 UPDATE produto SET codCategoria = 1 where id <= 2;
 UPDATE produto SET codCategoria = 2 where id = 3;
+
+ALTER TABLE produto MODIFY codCategoria INT NOT NULL;
